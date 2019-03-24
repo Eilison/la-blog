@@ -68,7 +68,7 @@
                 dataType:"text",
                 success:function (data) {
                     bootbox.alert("<a href=\"{{ route('article.index') }}\">文章发布成功</a>",function(){
-                        window.location.reload();
+                        window.location.href = "{{ route('article.index') }}";
                     });
                 },
                 error:function(e){

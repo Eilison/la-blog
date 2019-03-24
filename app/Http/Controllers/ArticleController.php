@@ -31,7 +31,8 @@ class ArticleController extends Controller
     public function create()
     {
         //
-		return view('editor.editor');
+        $tags = tag::all();
+		return view('editor.editor') -> with(['tags' => $tags]);
     }
 
     /**
@@ -119,9 +120,9 @@ class ArticleController extends Controller
 		$article = Posts::findOrFail($id);
 		if($article->user_id === $user_id){
 			$tag = tag::where('name','=',$request->input('tag'))->first();
-			if(empty($tag)){
+			/*if(empty($tag)){
 				$tag = tag::create(['name' => $request->input('tag')]);
-			}
+			}*/
 			$tag_id = $tag->id;
 			$article->title = $request->input('title');
 			$article->tag_id = $tag_id;
@@ -159,9 +160,10 @@ class ArticleController extends Controller
     private function delete($article,$tag_id)
 	{
 		$article->delete();
-		if(Posts::where('tag_id','=',$tag_id)->count() == 0){
+		//文章被删除完需要用户去删除标签
+		/*if(Posts::where('tag_id','=',$tag_id)->count() == 0){
 			tag::destroy($tag_id);
-		}
+		}*/
 		return response("ok",200);
 	}
 }

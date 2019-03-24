@@ -50,4 +50,5 @@ class EditorController extends Controller
 			return response("ok",200);
 		}
 	}
+
 }

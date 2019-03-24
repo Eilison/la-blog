@@ -53,6 +53,7 @@
                 <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">{{ trans('adminlte::adminlte.toggle_navigation') }}</span>
+                    <li class="header">{{Auth::user()->name}}</li>
                 </a>
             @endif
                 <!-- Navbar Right Menu -->
@@ -106,6 +107,7 @@
                     @else
                         <li><a href="{{ route('article.create') }}"><i class="fa fa-fw fa-pencil"></i><span>发布文章</span></a></li>
                         <li><a href="{{ route('article.index') }}"><i class="fa fa-fw fa-file"></i><span>文章管理</span></a></li>
+                        <li><a href="{{ route('tags.index') }}"><i class="fa fa-fw fa-tags"></i><span>标签管理</span></a></li>
                         <li><a href="{{ route('set') }}"><i class="fa fa-fw fa-user"></i><span>个人设置</span></a></li>
                         @endrole
                 </ul>

@@ -26,13 +26,11 @@
                 </div>
                 <div class="form-group col-md-8 col-lg-8">
                     <label for="tag">文章标签</label>
-                    <div class="row">
-                        <div class="col-md-8 col-lg-8">
-                            <input type="text" class="form-control" name="tag" id="tag" placeholder="文章标签" list="tag_list" onkeyup="get_tag(this.value)" >
-                            <datalist id="tag_list">
-                            </datalist>
-                        </div>
-                    </div>
+                    <select class="form-control select2"  name="tag" id="tag" style="width: 100%;">
+                        @foreach($tags as $tag)
+                            <option selected="selected">{{$tag -> name}}</option>
+                        @endforeach>
+                    </select>
                 </div>
                 <div class="form-group col-md-10 col-lg-10">
                     <label for="content">文章内容(markdown语法)</label>
@@ -61,6 +59,7 @@
                 toolbarAutoFixed: false,
                 saveHTMLToTextarea: false,
             });
+
         });
         function get_html_ajax(url){
             var html_content = editor.getPreviewedHTML();
@@ -71,31 +70,14 @@
                 type:"POST",
                 dataType:"text",
                 success:function (data) {
-                    bootbox.alert("<a href=\" {{ route('article.index') }}\">文章发布成功</a>",function(){
-                        window.location.reload();
+                    bootbox.alert("文章发布成功",function(){
+                        window.location.href=" {{ route('article.index') }}";
                     });
                 },
                 error:function(e){
                     bootbox.alert("发布失败");
                 }
             });
-        }
-        function get_tag(value)
-        {
-            $.ajax({
-                url:"{{ route('search_tag') }}",
-                type:"GET",
-                data:"data="+value ,
-                dataType:"json",
-                success:function (data) {
-                    //var tag_list = JSON.parse(data);
-                    for (var i=0 ;i<data.length;i++){
-                        var tmp = $("<option></option>");
-                        tmp.attr('value',data[i].name);
-                        $("#tag_list").html(tmp);
-                    }
-                }
-            })
         }
         $("#post-form").bootstrapValidator({
             message: '这个值没有被验证',

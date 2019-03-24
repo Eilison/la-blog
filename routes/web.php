@@ -52,6 +52,11 @@ Route::prefix('admin')->middleware(['auth','role:admin'])->group(function (){
 	Route::resource('link','LinkController');
 });
 
+Route::prefix('admin')->middleware(['auth']) ->group(function (){
+    Route::resource('tags','admin\TagController');
+});
+
+
 Route::prefix('editor')->middleware(['auth'])->group(function (){
 	Route::resource('article','ArticleController');
 	Route::post('editor_setting','EditorController@setting')->name('editor_setting');
