@@ -65,3 +65,22 @@ Route::prefix('editor')->middleware(['auth'])->group(function (){
 		return $tag;
 	})->name('search_tag');
 });
+
+
+Route::get('.', function () {
+    if(isset($_GET['tag_id'])){
+        $tag_id = $_GET['tag_id'];
+        $posts = \App\Posts::where('tag_id','=',$tag_id)->paginate(4);
+        $this_tag = \App\tag::findOrFail($tag_id);
+        $tag_name = $this_tag->name;
+    }else{
+        $posts = \App\Posts::orderBy('id','desc')->paginate(4);
+        $tag_name = NULL;
+    }
+    $group = \App\Group::first();
+    $user = \App\User::take(8)->skip(1)->get();
+    $hot_posts = \App\Posts::orderBy('view','desc')->take(8)->get();
+    $tag = \App\tag::all();
+    $link = \App\link::all();
+    return view('welcome',['group'=>$group,'user'=>$user,'posts'=>$posts,'hot_posts'=>$hot_posts,'tag'=>$tag,'link'=>$link,'tag_name'=>$tag_name]);
+})->name('welcome');
